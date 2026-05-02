@@ -1,7 +1,7 @@
 ---
 name: idea-to-design-doc
 description: "Use when turning a rough idea into a focused product/design Markdown doc through guided questions, without moving into implementation too early."
-version: 1.0.0
+version: 1.1.0
 author: Hermes Agent
 license: MIT
 metadata:
@@ -32,6 +32,7 @@ This workflow starts with *product thinking* and only moves into technical aspec
 - Do **not** push into backend, frameworks, database design, or code architecture too early.
 - First capture product intent, behavior, audience, layout, features, UX, and philosophy.
 - Then, when drafting the design doc, include the relevant technical aspects: platform assumptions, major system components, data needs, integrations, constraints, and likely architecture questions.
+- For Full mode or build-bound ideas, recommend sensible technical defaults first, then let the user accept or change them. Cover database/storage, hosting/deployment, backend/runtime, frontend/UI, auth, platform targets, and other technical pieces only after the product direction is clear.
 - Ask one question at a time when possible.
 - If the user gives a short answer, follow up with a narrower question.
 - If the user says to stop, immediately draft the note from what you have.
@@ -71,11 +72,17 @@ Ask questions in this order, adapting to the user's answers. For stronger prompt
    - "What are the must-have features?"
 7. **Layout / organization**
    - "How should the main parts be arranged or grouped?"
-8. **Preferences / feel**
+8. **Data location / hosting preference**
+   - "Should the data stay local, be self-hosted, go to Cloudflare/AWS/another cloud, or is that undecided?"
+9. **Platform targets**
+   - "Should this be web-only, or should it also have a Windows app, Mac app, cross-platform desktop app, mobile app, or responsive mobile web?"
+10. **Recommended technical defaults**
+   - "Based on this idea, I recommend these technical defaults: <short stack summary>. Do you want to accept them or change any part?"
+11. **Preferences / feel**
    - "Should it feel simple, playful, serious, fast, calm, etc.?"
-9. **Non-goals**
+12. **Non-goals**
    - "What should this *not* do?"
-10. **Success criteria**
+13. **Success criteria**
     - "How will you know this idea is good enough to move forward?"
 
 ## Interview style
@@ -130,6 +137,12 @@ When drafting, produce a markdown note with this structure:
 ## Technical shape
 
 ## Data / integrations / platform needs
+
+## Hosting / data location
+
+## Platform targets
+
+## Recommended technical defaults
 
 ## Non-goals
 

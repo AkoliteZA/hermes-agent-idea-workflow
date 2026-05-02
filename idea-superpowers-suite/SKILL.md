@@ -1,7 +1,7 @@
 ---
 name: idea-superpowers-suite
 description: "Use when running the full idea workflow: capture a rough idea, expand it into a design doc, research similar products, and generate implementation artifacts as separate Markdown files."
-version: 1.0.1
+version: 1.1.0
 author: Hermes Agent
 license: MIT
 metadata:
@@ -119,9 +119,15 @@ In Full mode, cover:
 - what is in scope / out of scope
 - what the main screens or sections are
 - what data, integrations, or platform constraints matter
+- where data should live and who should operate it: local-only, self-hosted, Cloudflare, AWS, another cloud, or undecided
+- which platforms are required: browser/web-only, Windows desktop, Mac desktop, cross-platform desktop, mobile web, iOS, Android, or no mobile app
+- whether the product is one app or multiple surfaces/services, such as a desktop recorder plus hosted web dashboard plus background worker
+- technical defaults the agent recommends, then lets the user accept or change: database/storage, backend/runtime, frontend framework, auth, hosting, file/object storage, queues/jobs, realtime/sync, search, analytics/observability, testing, and deployment/CI
+- authentication, authorization, secrets, API keys, public/private sharing, and what must never be committed or exposed to clients
 - what would make the result feel excellent, not merely functional
 
 Do **not** push into stack decisions too early unless the user has already made a technical constraint explicit.
+When the workflow reaches technical planning, propose a practical default stack based on the idea and constraints first, explain why, then ask the user to accept or change it. Do not force the user to invent database/cloud/framework choices from scratch.
 
 ### Stage 3: Design doc
 
@@ -139,6 +145,9 @@ Suggested sections:
 - UX notes
 - technical shape
 - data / integrations / platform needs
+- hosting / data location / deployment preference
+- platform targets: web, desktop, mobile, or combinations
+- recommended technical defaults and accepted/changed decisions
 - non-goals
 - open questions
 - next steps
@@ -157,8 +166,14 @@ For the specific idea note, look for similar products and note:
 Translate the idea into a build plan that includes:
 - major system pieces
 - data needs
+- recommended database/storage choice and why: SQLite, Postgres, MySQL, DynamoDB, Cloudflare D1/KV/R2, S3, local files, or no database
+- hosting/deployment target and whether data stays local or goes to a cloud provider such as Cloudflare or AWS
+- platform target decisions: browser-only, Windows app, Mac app, mobile app, or responsive web/mobile-web only
+- app topology decisions: single app, desktop + web, mobile + API, workers, upload agents, or other split surfaces
 - frontend structure
 - backend/service needs if any
+- recommended technical stack defaults for frontend, backend/runtime, auth, database, object/file storage, queues/jobs, realtime/sync, search, observability/logging, testing, and deployment/CI
+- security/secrets model for credentials, API keys, admin access, public links, and client/server boundaries
 - integration points
 - workflow/milestones
 - risks and tradeoffs
@@ -169,6 +184,13 @@ Translate the idea into a build plan that includes:
 - a build sequence a developer or AI coding agent could follow
 
 Stay practical. Avoid over-designing. The final implementation artifact should be usable as the single Markdown source of truth for an agent building the program.
+
+For technical decisions, use a **recommend-then-confirm** flow:
+1. Infer sensible defaults from the product constraints.
+2. Present them as a concise recommendation table with rationale.
+3. Ask whether the user accepts the defaults or wants to change any item.
+4. Record accepted defaults as decisions and changed items as explicit overrides.
+5. If the user is unsure, proceed with the recommended defaults and mark them as assumptions.
 
 ### Stage 6: Final agent build handoff
 

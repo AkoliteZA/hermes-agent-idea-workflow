@@ -27,8 +27,26 @@ Prevent scope creep by naming what should not be built in this pass.
 ## Technical Architecture
 Describe the intended architecture, major components, and how they interact.
 
+## App Topology / Surfaces
+State whether this is one app or multiple pieces, such as desktop app, web app, API, background worker, upload agent, mobile app, or CLI. Define what each piece owns and how they communicate.
+
 ## Data Model
 List entities, fields, relationships, storage needs, and persistence assumptions.
+
+## Database / Storage Recommendation
+State the recommended database/storage choice, why it fits this build, whether the user accepted it or changed it, and any important alternatives considered. If no database is needed, say so explicitly.
+
+## Hosting / Data Location / Deployment
+State where data and services should live for this build: local-only, self-hosted, Cloudflare, AWS, another cloud/provider, or explicitly undecided. Include deployment assumptions, operational constraints, and what must not leave the local machine if applicable.
+
+## Platform Targets
+State the required app platforms for this build: browser/web-only, Windows desktop, Mac desktop, cross-platform desktop, mobile web, iOS, Android, or some combination. Separate MVP targets from future targets and explicitly say if desktop or mobile apps are out of scope.
+
+## Technical Stack Recommendation
+List recommended defaults and user overrides for frontend/UI, backend/runtime, auth, database, file/object storage, queues/jobs, realtime/sync, search, observability/logging, testing, and deployment/CI. The build agent should not have to guess these choices unless this section explicitly marks them flexible.
+
+## Auth / Secrets / Sharing Model
+State how admin login, public/private access, shareable links, API keys, environment variables, and client/server secret boundaries should work. Never include real secrets. Say which credentials must remain server-side/local-only and what must not be exposed to public clients.
 
 ## Integrations
 List external tools, APIs, CLIs, SDKs, local services, agents, or platforms involved.

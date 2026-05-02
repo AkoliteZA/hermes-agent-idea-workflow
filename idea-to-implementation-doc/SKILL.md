@@ -1,7 +1,7 @@
 ---
 name: idea-to-implementation-doc
 description: "Use when reviewing one specific idea/design doc, researching similar products, and producing a separate technical implementation plan or roadmap."
-version: 1.0.0
+version: 1.1.0
 author: Hermes Agent
 license: MIT
 metadata:
@@ -44,6 +44,9 @@ Primary input:
 Optional input:
 - associated design doc, if it exists separately
 - user constraints about stack, hosting, or platform
+- deployment/data-location preference: local-only, self-hosted, Cloudflare, AWS, another cloud, or undecided
+- platform targets: browser/web-only, Windows desktop, Mac desktop, cross-platform desktop, mobile web, iOS, Android, or explicitly no mobile
+- accepted technical defaults or overrides for database, backend/runtime, frontend, auth, file/object storage, queues/jobs, realtime/sync, search, observability/logging, tests, and deployment/CI
 
 ## Workflow
 
@@ -74,8 +77,12 @@ Translate the idea into an implementation plan covering:
 - product scope
 - main user flows
 - data model / database needs
+- recommended database/storage default and accepted/changed decision
+- hosting/deployment target and where data should live
 - front end structure
 - backend/service needs
+- platform target decisions: web-only, desktop apps, mobile apps, responsive web, and which are MVP vs later
+- recommended technical defaults for frontend, backend/runtime, auth, storage, queues/jobs, realtime/sync, search, observability/logging, tests, and deployment/CI
 - integration points
 - file/module organization
 - development phases
@@ -119,7 +126,15 @@ Suggested naming:
 
 ## Data Model
 
+## Database / Storage Recommendation
+
+## Hosting / Data Location / Deployment
+
+## Technical Stack Recommendation
+
 ## Frontend Plan
+
+## Platform Targets
 
 ## Backend / Services Plan
 
@@ -162,6 +177,22 @@ After the implementation spec is drafted, create `03-agent-build-handoff.md` usi
 ## Technical Architecture
 
 ## Data Model
+
+## Database / Storage Recommendation
+
+State the recommended database/storage approach, why it fits the product, and whether the user accepted it or overrode it. Mention relevant alternatives considered when helpful.
+
+## Hosting / Data Location / Deployment
+
+Specify whether data stays local, is self-hosted, uses Cloudflare, AWS, another cloud, or remains undecided. If undecided, list the assumptions used for the MVP and what would change later.
+
+## Platform Targets
+
+Specify whether the MVP is browser/web-only, Windows desktop, Mac desktop, cross-platform desktop, mobile web, iOS, Android, or a combination. Explicitly separate MVP platforms from future platforms.
+
+## Technical Stack Recommendation
+
+List recommended defaults and user overrides for frontend, backend/runtime, auth, database, file/object storage, queues/jobs, realtime/sync, search, observability/logging, testing, and deployment/CI. The handoff should not require the build agent to guess these choices unless the spec explicitly marks them as flexible.
 
 ## Integrations
 
@@ -213,6 +244,8 @@ Verdict: PASS | PASS WITH CHANGES | FAIL
 - [ ] Requirements are testable
 - [ ] Product decisions are resolved or explicitly listed
 - [ ] Technical decisions are resolved or explicitly listed
+- [ ] Database/storage recommendation is present or explicitly unnecessary
+- [ ] Recommended technical defaults are documented, with user overrides if any
 - [ ] Acceptance criteria are concrete
 - [ ] Done Means is specific
 - [ ] A fresh agent could build from the handoff without obvious missing context
@@ -259,6 +292,10 @@ When reviewing the idea doc, explicitly check for:
 - scope creep
 - missing user flows
 - unclear data ownership
+- missing hosting/data-location choice
+- missing platform target decisions for web, desktop, and mobile
+- missing database/storage recommendation
+- missing technical default recommendations or user overrides
 - vague success criteria
 - hidden assumptions
 - duplicate features that already exist elsewhere
@@ -269,6 +306,9 @@ For the technical plan:
 - Be concrete about likely components.
 - Prefer a simple architecture first.
 - Explain why a database is or is not needed.
+- Recommend a default technical stack first, then allow the user to accept or change it. Do not make the user pick every technical component from scratch.
+- Cover database/storage, backend/runtime, frontend/UI, auth, file/object storage, queues/jobs, realtime/sync, search, observability/logging, tests, and deployment/CI when relevant.
+- Record accepted defaults as decisions and user changes as explicit overrides.
 - If the app is small, mention a minimal viable architecture rather than a full enterprise stack.
 - If the app needs auth, persistence, search, sync, or real-time features, call that out.
 

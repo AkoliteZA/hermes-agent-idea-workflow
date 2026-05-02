@@ -181,8 +181,9 @@ Status: v1 feature complete / beta - ready for real idea trials.
 
 The workflow is structurally complete, but it still needs field testing against real ideas and real Hermes sessions.
 
-Latest update:
+Latest updates:
 
+- v0.1.2 / skill v1.1.0 adds recommend-then-confirm technical defaults across the workflow, including data location, platform targets, database/storage, hosting/deployment, app topology, auth/secrets, and stack recommendations for build-ready handoffs.
 - `idea-superpowers-suite` v1.0.1 clarifies that the canonical agent handoff template lives at `idea-to-implementation-doc/templates/agent-build-handoff-template.md` and that the `idea-to-implementation-doc` skill should be loaded when creating `03-agent-build-handoff.md`.
 
 ## Privacy Note
