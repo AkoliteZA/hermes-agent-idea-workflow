@@ -181,6 +181,10 @@ Status: v1 feature complete / beta - ready for real idea trials.
 
 The workflow is structurally complete, but it still needs field testing against real ideas and real Hermes sessions.
 
+Latest update:
+
+- `idea-superpowers-suite` v1.0.1 clarifies that the canonical agent handoff template lives at `idea-to-implementation-doc/templates/agent-build-handoff-template.md` and that the `idea-to-implementation-doc` skill should be loaded when creating `03-agent-build-handoff.md`.
+
 ## Privacy Note
 
 The examples in this repository are generic public examples. They are intentionally not based on private product plans.

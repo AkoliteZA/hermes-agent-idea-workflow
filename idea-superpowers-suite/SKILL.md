@@ -1,7 +1,7 @@
 ---
 name: idea-superpowers-suite
 description: "Use when running the full idea workflow: capture a rough idea, expand it into a design doc, research similar products, and generate implementation artifacts as separate Markdown files."
-version: 1.0.0
+version: 1.0.1
 author: Hermes Agent
 license: MIT
 metadata:
@@ -174,7 +174,7 @@ Stay practical. Avoid over-designing. The final implementation artifact should b
 
 Create or update `README.md` using `templates/idea-package-readme-template.md` so the artifact folder has an obvious status/index page.
 
-Create `03-agent-build-handoff.md` as the final single-file handoff that another agent can use as source of truth. Use `templates/agent-build-handoff-template.md` as the required structure.
+Create `03-agent-build-handoff.md` as the final single-file handoff that another agent can use as source of truth. Use `idea-to-implementation-doc/templates/agent-build-handoff-template.md` as the required structure. Load the `idea-to-implementation-doc` skill when creating this handoff, because the canonical handoff template lives there rather than in this umbrella skill's linked template list.
 
 The handoff must include:
 - mission
