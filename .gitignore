@@ -1,0 +1,6 @@
+.DS_Store
+.obsidian/
+*.local
+*.env
+*.secret
+secrets/
