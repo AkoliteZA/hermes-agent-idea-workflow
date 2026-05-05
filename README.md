@@ -16,10 +16,11 @@ The toolset helps an agent produce:
 2. Full-mode staged idea package
 3. guided interview/questions
 4. design document
-5. implementation spec
-6. final single-file agent build handoff
-7. spec review gate
-8. explicit handoff into the Superpowers workflow
+5. optional UI design brief
+6. implementation spec
+7. final single-file agent build handoff
+8. spec review gate
+9. explicit handoff into the Superpowers workflow
 
 ## Where It Fits
 
@@ -75,6 +76,19 @@ ideas/<idea-slug>/
   README.md
   00-idea-capture.md
   01-design-doc.md
+  02-ui-design-brief.md
+  03-implementation-spec.md
+  04-agent-build-handoff.md
+  05-spec-review.md
+```
+
+If the optional UI stage is skipped, preserve the simpler layout:
+
+```text
+ideas/<idea-slug>/
+  README.md
+  00-idea-capture.md
+  01-design-doc.md
   02-implementation-spec.md
   03-agent-build-handoff.md
   04-spec-review.md
@@ -84,6 +98,7 @@ ideas/<idea-slug>/
 
 - `idea-superpowers-suite`
 - `idea-to-design-doc`
+- `idea-to-ui-design-brief`
 - `idea-to-implementation-doc`
 
 ## Key Features
@@ -92,6 +107,8 @@ ideas/<idea-slug>/
 - guided interview flow
 - reusable question bank
 - staged Markdown artifacts
+- optional Full-mode UI design brief
+- optional image-generation concept prompts
 - README/status index template
 - implementation handoff template
 - spec review gate
@@ -120,7 +137,7 @@ Manual install example:
 
 ```bash
 mkdir -p ~/.hermes/skills/idea-workflow
-cp -R idea-superpowers-suite idea-to-design-doc idea-to-implementation-doc ~/.hermes/skills/idea-workflow/
+cp -R idea-superpowers-suite idea-to-design-doc idea-to-ui-design-brief idea-to-implementation-doc ~/.hermes/skills/idea-workflow/
 ```
 
 Depending on how Hermes is running, skill loading may require a new Hermes session.
@@ -141,10 +158,16 @@ Use idea-workflow in Lite mode and just capture this idea.
 
 Idea Workflow creates the source material. Superpowers for GPT is the recommended execution system after the spec is ready.
 
-In the Full Mode path, Idea Workflow should produce:
+In the Full Mode path, Idea Workflow should produce a single agent build handoff. If the optional UI stage is skipped, that file is:
 
 ```text
 03-agent-build-handoff.md
+```
+
+If the optional UI stage is used, the handoff becomes:
+
+```text
+04-agent-build-handoff.md
 ```
 
 The user can then feed that file into Superpowers for GPT to plan, split, implement, test, review, and verify the actual build.
@@ -169,6 +192,9 @@ idea-superpowers-suite/
 idea-to-design-doc/
   SKILL.md
 
+idea-to-ui-design-brief/
+  SKILL.md
+
 idea-to-implementation-doc/
   SKILL.md
   templates/
@@ -183,6 +209,7 @@ The workflow is structurally complete, but it still needs field testing against 
 
 Latest updates:
 
+- v0.1.3 adds `idea-to-ui-design-brief`, an optional Full-mode UI stage for screen-level UI direction, optional image-generation concept prompts, post-build UI redesign loops, and updated artifact numbering when the UI stage is used.
 - v0.1.2 / skill v1.1.0 adds recommend-then-confirm technical defaults across the workflow, including data location, platform targets, database/storage, hosting/deployment, app topology, auth/secrets, and stack recommendations for build-ready handoffs.
 - `idea-superpowers-suite` v1.0.1 clarifies that the canonical agent handoff template lives at `idea-to-implementation-doc/templates/agent-build-handoff-template.md` and that the `idea-to-implementation-doc` skill should be loaded when creating `03-agent-build-handoff.md`.
 

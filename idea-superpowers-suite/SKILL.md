@@ -1,78 +1,94 @@
 ---
 name: idea-superpowers-suite
-description: "Use when running the full idea workflow: capture a rough idea, expand it into a design doc, research similar products, and generate implementation artifacts as separate Markdown files."
-version: 1.1.0
+description: "Use when running the full idea workflow: capture a rough idea, expand it into design/UI/implementation docs, research similar products, and generate build-ready Markdown artifacts."
+version: 1.2.0
 author: Hermes Agent
 license: MIT
 metadata:
   hermes:
-    tags: [idea-workflow, note-taking, product-design, implementation, research, superpowers]
-    related_skills: [idea-to-design-doc, idea-to-implementation-doc, writing-plans]
+    tags: [idea-workflow, note-taking, product-design, ui-design, implementation, research, superpowers]
+    related_skills: [idea-to-design-doc, idea-to-ui-design-brief, idea-to-implementation-doc, writing-plans]
 ---
 # Idea Superpowers Suite
 
-This skill is a **superpowers-style umbrella workflow** for idea development.
+This skill is a superpowers-style umbrella workflow for idea development.
 
-It is intentionally separate from the more focused skills:
-- `idea-to-design-doc`
-- `idea-to-implementation-doc`
+It coordinates the focused stages:
+- `idea-to-design-doc` for product/design thinking
+- `idea-to-ui-design-brief` for optional Full-mode UI direction and image-generation concepts
+- `idea-to-implementation-doc` for build-ready implementation planning
 
-Use this skill when the user wants a *bigger, multi-step workflow* that feels like a reusable system rather than a one-off prompt.
+Use this skill when the user wants a bigger, multi-step workflow that feels like a reusable system rather than a one-off prompt.
 
 ## Purpose
 
 Turn a rough thought into a structured chain of artifacts:
-1. **Idea capture** — create or update a local idea note from the user's high-level concept
-2. **Clarifying interview** — ask follow-up questions to capture the rough plan, idea philosophy, target experience, and key constraints
-3. **Design doc** — review and flesh the idea into a full design document covering product, UX, and relevant technical aspects
-4. **Implementation review** — research similar products and translate the design into build strategy
-5. **Build-ready output** — produce one Markdown implementation/build file containing tasks, agent prompts, testing/verification, and acceptance criteria
+1. Idea capture — create or update a local idea note from the user's high-level concept.
+2. Clarifying interview — capture the rough plan, philosophy, target experience, and constraints.
+3. Design doc — flesh the idea into a full product/UX/technical design document.
+4. Optional UI design brief — in Full mode only, define screens, layout, visual direction, states, and optional image-generation concept prompts.
+5. Research pass — compare similar products and identify what to emulate or avoid.
+6. Implementation spec — translate the design into practical build strategy.
+7. Build handoff — produce one Markdown file with tasks, prompts, tests, acceptance criteria, and Superpowers handoff guidance.
+8. Spec review — judge readiness before execution.
 
-## Design philosophy
+## Design Philosophy
 
-This workflow should feel like a set of reusable powers:
-- **Capture fast**
-- **Clarify deeply**
-- **Research before building**
-- **Separate product thinking from engineering thinking**
-- **Save every stage as its own Markdown artifact**
+This workflow should:
+- capture fast;
+- clarify deeply;
+- research before building;
+- separate product thinking from engineering thinking;
+- separate UI direction from implementation details when interface quality matters;
+- save every stage as its own Markdown artifact;
+- remain skippable and resilient when the user wants speed.
 
-This umbrella absorbs the focused stages previously split out as:
-- `idea-to-design-doc` for a product/design-only pass
-- `idea-to-implementation-doc` for a technical implementation-only pass
+The UI brief is optional. It improves interface-heavy projects, but it must not make Lite mode heavier or break existing design-doc → implementation-doc flow.
 
-## Default file layout
-
-Use local Markdown files first. If the user later wants Obsidian export, treat that as a separate step.
-
-### Mode selection
+## Mode Selection
 
 At the start, choose one of two modes unless the user explicitly picks one:
 
-- **Lite mode** — for sketches, small utilities, early thoughts, and ideas the user wants captured quickly. Create only the minimum useful artifacts.
-- **Full mode** — for serious app/product ideas that may later be built by an AI coding agent or Superpowers. Create the complete staged artifact set.
+- Lite mode — for sketches, small utilities, early thoughts, and ideas the user wants captured quickly.
+- Full mode — for serious app/product ideas that may later be built by an AI coding agent or Superpowers.
 
-Default to Lite mode when the idea is vague or the user sounds exploratory. Default to Full mode when the user asks for a product spec, implementation plan, build handoff, research pass, or agent-ready artifact.
+Default to Lite mode when the idea is vague or exploratory. Default to Full mode when the user asks for a product spec, implementation plan, build handoff, research pass, UI/mockup direction, or agent-ready artifact.
+
+## Default File Layout
+
+Use local Markdown files first. If the user later wants Obsidian export, treat that as a separate step.
 
 ### Lite mode layout
-
-For lightweight ideas, use:
 
 ```text
 ideas/<idea-slug>.md
 ideas/index.md
 ```
 
-Optionally add only if requested:
+Optional only if requested:
 
 ```text
 ideas/<idea-slug>.implementation.md
 ideas/<idea-slug>.build-prompt.md
+ideas/<idea-slug>.ui-brief.md
 ```
 
-### Full mode layout
+### Full mode layout with UI stage
 
-For full app/product ideas, use a staged folder layout so every phase has a durable artifact:
+```text
+ideas/<idea-slug>/
+  README.md
+  00-idea-capture.md
+  01-design-doc.md
+  02-ui-design-brief.md
+  03-implementation-spec.md
+  04-agent-build-handoff.md
+  05-spec-review.md
+```
+
+### Full mode fallback layout when UI stage is skipped
+
+If the UI stage is skipped, preserve the previous simpler numbering:
 
 ```text
 ideas/<idea-slug>/
@@ -84,219 +100,268 @@ ideas/<idea-slug>/
   04-spec-review.md
 ```
 
-Stage meanings:
-- `README.md` — package index: status, artifact map, current verdict, open decisions, and next action.
-- `00-idea-capture.md` — raw idea, philosophy, goals, early notes, and interview answers.
-- `01-design-doc.md` — product/UX/technical design doc.
-- `02-implementation-spec.md` — implementation strategy, system design, tasks, testing approach.
-- `03-agent-build-handoff.md` — final single-file build handoff for another AI agent or Superpowers.
-- `04-spec-review.md` — readiness review before execution: PASS / PASS WITH CHANGES / FAIL.
+Use whichever numbering is already established in a package. Keep the README artifact map consistent.
 
-## Workflow stages
+## Workflow Stages
 
 ### Stage 1: Capture
 
 When the user says they have an idea, create a working note with:
-- title
-- short summary
-- rough problem statement
-- a few initial bullet points
+- title;
+- short summary;
+- rough problem statement;
+- initial bullet points;
+- mode: Lite or Full.
 
 If needed, ask for a name, but prefer to proceed with a temporary title and refine later.
 
 ### Stage 2: Interview
 
-Ask one question at a time to flesh out the idea. Use `references/interview-question-bank.md` for stronger prompts.
+Ask one question at a time. Use `references/interview-question-bank.md` for stronger prompts.
 
-In Lite mode, ask only the few questions needed to capture the idea clearly, then draft.
+In Lite mode, ask only enough to capture the idea clearly, then draft.
 
 In Full mode, cover:
-- who it is for
-- what problem it solves
-- what the app should do
-- how it should behave
-- how the user should experience it
-- what is in scope / out of scope
-- what the main screens or sections are
-- what data, integrations, or platform constraints matter
-- where data should live and who should operate it: local-only, self-hosted, Cloudflare, AWS, another cloud, or undecided
-- which platforms are required: browser/web-only, Windows desktop, Mac desktop, cross-platform desktop, mobile web, iOS, Android, or no mobile app
-- whether the product is one app or multiple surfaces/services, such as a desktop recorder plus hosted web dashboard plus background worker
-- technical defaults the agent recommends, then lets the user accept or change: database/storage, backend/runtime, frontend framework, auth, hosting, file/object storage, queues/jobs, realtime/sync, search, analytics/observability, testing, and deployment/CI
-- authentication, authorization, secrets, API keys, public/private sharing, and what must never be committed or exposed to clients
-- what would make the result feel excellent, not merely functional
+- target user and problem;
+- what the app should do;
+- desired behavior and product experience;
+- scope and non-goals;
+- main screens or sections;
+- what should be visible at a glance;
+- where users take action;
+- details that can be hidden until needed;
+- desired visual taste: minimal, playful, professional, dense, dashboard-like, calm, command-center, etc.;
+- empty, loading, error, success, first-run, and permission states where relevant;
+- data, integrations, and platform constraints;
+- data location and hosting preference;
+- platform targets: web, desktop, mobile web, iOS, Android, etc.;
+- topology: one app or multiple pieces such as desktop app + hosted web app + API + worker;
+- authentication, secrets, API keys, public/private sharing, and client/server boundaries;
+- what would make the result feel excellent, not merely functional.
 
-Do **not** push into stack decisions too early unless the user has already made a technical constraint explicit.
-When the workflow reaches technical planning, propose a practical default stack based on the idea and constraints first, explain why, then ask the user to accept or change it. Do not force the user to invent database/cloud/framework choices from scratch.
+Do not push into stack decisions too early unless the user has made a technical constraint explicit. When technical planning starts, recommend practical defaults first, then let the user accept or change them.
 
-### Stage 3: Design doc
+### Stage 3: Design Doc
 
-Write a clean design doc that captures the agreed product direction and enough technical shape to support implementation planning.
+Write `01-design-doc.md` to capture product direction and enough technical shape to support planning.
 
 Suggested sections:
-- one-line summary
-- problem / purpose
-- product philosophy
-- target user
-- core concept
-- desired behavior
-- key features
-- layout / information architecture
-- UX notes
-- technical shape
-- data / integrations / platform needs
-- hosting / data location / deployment preference
-- platform targets: web, desktop, mobile, or combinations
-- recommended technical defaults and accepted/changed decisions
-- non-goals
-- open questions
-- next steps
+- one-line summary;
+- problem / purpose;
+- product philosophy;
+- target user;
+- core concept;
+- desired behavior;
+- key features;
+- layout / information architecture;
+- UX notes;
+- technical shape;
+- data / integrations / platform needs;
+- hosting / data location / deployment preference;
+- platform targets;
+- recommended technical defaults and accepted/changed decisions;
+- non-goals;
+- open questions;
+- next steps.
 
-### Stage 4: Research pass
+### Stage 4: Optional UI Design Brief
 
-For the specific idea note, look for similar products and note:
-- what already exists
-- what is common / commodity
-- what is different
-- what should be avoided
-- where the idea fits in the market
+This stage is Full-mode only by default. Do not add it to Lite mode unless the user explicitly asks for UI, mockups, generated images, or visual design direction.
 
-### Stage 5: Implementation thinking
+Load `idea-to-ui-design-brief` when this stage runs.
 
-Translate the idea into a build plan that includes:
-- major system pieces
-- data needs
-- recommended database/storage choice and why: SQLite, Postgres, MySQL, DynamoDB, Cloudflare D1/KV/R2, S3, local files, or no database
-- hosting/deployment target and whether data stays local or goes to a cloud provider such as Cloudflare or AWS
-- platform target decisions: browser-only, Windows app, Mac app, mobile app, or responsive web/mobile-web only
-- app topology decisions: single app, desktop + web, mobile + API, workers, upload agents, or other split surfaces
-- frontend structure
-- backend/service needs if any
-- recommended technical stack defaults for frontend, backend/runtime, auth, database, object/file storage, queues/jobs, realtime/sync, search, observability/logging, testing, and deployment/CI
-- security/secrets model for credentials, API keys, admin access, public links, and client/server boundaries
-- integration points
-- workflow/milestones
-- risks and tradeoffs
-- executable build tasks
-- agent-ready prompts/handoff instructions
-- testing and verification plan
-- acceptance criteria / “done means” checklist
-- a build sequence a developer or AI coding agent could follow
+Create `02-ui-design-brief.md` when interface quality matters. It should define:
+- purpose of the UI;
+- product feel and design principles;
+- primary screens/surfaces;
+- screen-by-screen notes;
+- layout and information architecture;
+- component inventory;
+- key user flows;
+- states to design: empty, loading, error, success, first-run, permissions;
+- visual direction;
+- accessibility and responsiveness;
+- content/copy notes;
+- optional image-generation concepts;
+- selected direction;
+- handoff notes for implementation.
 
-Stay practical. Avoid over-designing. The final implementation artifact should be usable as the single Markdown source of truth for an agent building the program.
+#### Optional image-generation pass
 
-For technical decisions, use a **recommend-then-confirm** flow:
-1. Infer sensible defaults from the product constraints.
-2. Present them as a concise recommendation table with rationale.
-3. Ask whether the user accepts the defaults or wants to change any item.
-4. Record accepted defaults as decisions and changed items as explicit overrides.
-5. If the user is unsure, proceed with the recommended defaults and mark them as assumptions.
+Image generation is concept exploration, not the implementation source of truth.
 
-### Stage 6: Final agent build handoff
+Use it when:
+- the user wants possible UI designs;
+- taste is ambiguous;
+- a dashboard/app/landing page needs visual exploration before code;
+- comparing 2-3 directions would help.
 
-Create or update `README.md` using `templates/idea-package-readme-template.md` so the artifact folder has an obvious status/index page.
+Default concepts:
+1. Conservative — familiar, low-risk, easy to implement.
+2. Strong-fit — best interpretation of the product brief.
+3. Divergent — more distinctive, useful for taste discovery.
 
-Create `03-agent-build-handoff.md` as the final single-file handoff that another agent can use as source of truth. Use `idea-to-implementation-doc/templates/agent-build-handoff-template.md` as the required structure. Load the `idea-to-implementation-doc` skill when creating this handoff, because the canonical handoff template lives there rather than in this umbrella skill's linked template list.
+If image generation is unavailable or skipped, write the prompts and continue text-only. If images are generated, use vision/manual review to translate them back into written requirements, component notes, and acceptance criteria. Do not ask Superpowers to copy an image blindly.
+
+### Stage 5: Research Pass
+
+For the specific idea, look for similar products and note:
+- what already exists;
+- what is common / commodity;
+- what is different;
+- what should be avoided;
+- where the idea fits.
+
+Keep this practical and bounded. Research should strengthen the spec, not become an endless market report.
+
+### Stage 6: Implementation Thinking
+
+Translate the idea into `03-implementation-spec.md` if the UI brief exists, otherwise `02-implementation-spec.md`.
+
+Include:
+- major system pieces;
+- data needs;
+- recommended database/storage choice and why;
+- hosting/deployment target;
+- platform target decisions;
+- app topology decisions;
+- frontend structure and how it respects the UI design brief if present;
+- backend/service needs;
+- recommended technical stack defaults;
+- security/secrets model;
+- integration points;
+- workflow/milestones;
+- risks and tradeoffs;
+- executable build tasks;
+- testing and verification plan;
+- acceptance criteria / done means;
+- a build sequence a developer or AI coding agent could follow.
+
+Use recommend-then-confirm for technical choices:
+1. infer sensible defaults from product constraints;
+2. present a concise recommendation table;
+3. ask whether the user accepts or changes items;
+4. record accepted defaults and explicit overrides;
+5. if unsure, proceed with defaults as assumptions.
+
+### Stage 7: Final Agent Build Handoff
+
+Create or update `README.md` using `templates/idea-package-readme-template.md`.
+
+Create the final handoff as:
+- `04-agent-build-handoff.md` if the UI brief exists;
+- `03-agent-build-handoff.md` if the UI brief was skipped.
+
+Load `idea-to-implementation-doc` when creating the handoff because the canonical handoff template lives there.
 
 The handoff must include:
-- mission
-- product vision
-- non-negotiable requirements
-- out of scope
-- technical architecture
-- implementation phases
-- build tasks
-- testing requirements
-- verification commands/checks
-- acceptance criteria
-- “done means” checklist
-- prompt for the build agent
-- explicit Superpowers handoff instructions
+- mission;
+- product vision;
+- non-negotiable requirements;
+- UI/design direction or explicit UI assumptions;
+- out of scope;
+- technical architecture;
+- implementation phases;
+- build tasks;
+- testing requirements;
+- verification commands/checks;
+- acceptance criteria;
+- done means checklist;
+- prompt for the build agent;
+- explicit Superpowers handoff instructions.
 
-### Stage 7: Spec review / readiness gate
+### Stage 8: Spec Review / Readiness Gate
 
-Before handing the spec to Superpowers or a build agent, create `04-spec-review.md`.
+Create:
+- `05-spec-review.md` if the UI brief exists;
+- `04-spec-review.md` if the UI brief was skipped.
 
-Review the final handoff for:
-- whether the product goal is clear
-- whether requirements are testable
-- whether unresolved product decisions remain
-- whether unresolved technical decisions remain
-- whether acceptance criteria are concrete
-- whether the “done means” section is specific
-- whether a fresh agent could build from the file without asking obvious questions
-- whether testing and verification requirements are included
-- whether non-goals are clear enough to prevent scope creep
+Review whether:
+- the product goal is clear;
+- UI/design expectations are clear enough for a fresh agent to avoid generic output;
+- requirements are testable;
+- unresolved product decisions remain;
+- unresolved technical decisions remain;
+- acceptance criteria are concrete;
+- done means is specific;
+- a fresh agent could build from the file without asking obvious questions;
+- testing and verification requirements are included;
+- non-goals prevent scope creep.
 
-Use one of these verdicts:
-- `PASS` — ready to feed into Superpowers.
-- `PASS WITH CHANGES` — mostly ready; patch listed issues first.
-- `FAIL` — too ambiguous or incomplete to build safely.
+Verdicts:
+- PASS — ready to feed into Superpowers.
+- PASS WITH CHANGES — mostly ready; patch listed issues first.
+- FAIL — too ambiguous or incomplete.
 
-### Stage 8: Review / plan review
+### Stage 9: Review / Plan Review
 
-If the user wants a check or critique pass, review the artifacts as separate tracks rather than collapsing them into one package.
+If the user wants a critique pass, review artifacts separately:
+- design doc stays product-focused;
+- UI brief gives concrete screen/style/state guidance without prescribing unnecessary code;
+- implementation doc stays build-focused;
+- final handoff is agent-ready;
+- spec review is honest about gaps;
+- package summary does not duplicate all focused docs.
 
-Review for:
-- whether each note keeps its own scope
-- whether the design doc stays product-focused while including necessary technical shape
-- whether the implementation doc stays build-focused
-- whether the final handoff is truly agent-ready
-- whether the spec review is honest about gaps
-- whether any umbrella summary accidentally duplicates the focused docs
-- whether a copied plan or review note should be saved as its own Markdown artifact
-
-This stage should preserve separation of concerns, not merge everything together.
-
-
-## Progression rules and override phrase
-
-Respect Lite vs Full mode when deciding how much process to apply.
+## Progression Rules and Override Phrase
 
 ### Lite mode rules
 
-- Capture the idea quickly and do not force research or implementation planning.
+- Capture quickly; do not force research, UI brief, or implementation planning.
 - Ask at most 3-5 clarifying questions before drafting unless the user wants more.
-- Do not create `02-implementation-spec.md`, `03-agent-build-handoff.md`, or `04-spec-review.md` unless the user asks to upgrade to Full mode.
+- Do not create `02-ui-design-brief.md`, implementation spec, build handoff, or spec review unless the user upgrades to Full mode or specifically asks for UI/mockup direction.
 - If the user says the idea is just a note, keep it as a note.
 
 ### Full mode rules
 
-- Do not move from capture to design until the target user, problem, and core behavior are clear enough to summarize.
-- Do not move from design to implementation if open product questions would change the architecture or MVP scope.
-- Do not create the final build handoff until implementation phases, testing requirements, acceptance criteria, and Done Means are present.
-- Do not mark the spec review `PASS` if verification commands/checks are missing or if major product/technical decisions remain unstated.
-- If open questions remain but do not block an MVP, mark them explicitly and use `PASS WITH CHANGES` if small patches are needed.
+- Do not move from capture to design until target user, problem, and core behavior are clear enough to summarize.
+- Do not move from design to implementation if open product or UI questions would change architecture, MVP scope, or core interface.
+- Do not create final build handoff until implementation phases, testing requirements, acceptance criteria, and done means are present.
+- Do not mark spec review PASS if verification checks are missing, major product/technical decisions remain, or UI expectations are too vague for an interface-heavy app.
+- If the UI stage is skipped, carry UI assumptions forward instead of blocking.
 
 ### User override phrase
 
 The user can force progression with this exact phrase:
 
-> **GREENLIGHT NEXT STAGE**
+> GREENLIGHT NEXT STAGE
 
-When the user says **GREENLIGHT NEXT STAGE**, move to the next stage even if you would normally keep asking questions. Do not argue. Briefly note the risk, carry forward unresolved items under **Open Questions / Assumptions**, and continue.
+When the user says it, move to the next stage. Briefly note the risk, carry unresolved items under Open Questions / Assumptions, and continue. This does not allow unsafe actions or credential exposure.
 
-Examples:
-- "GREENLIGHT NEXT STAGE — write the design doc."
-- "GREENLIGHT NEXT STAGE — make the implementation spec with what we have."
-- "GREENLIGHT NEXT STAGE — produce the handoff even with open questions."
-
-This override does not allow unsafe actions or credential exposure. It only overrides product/spec completeness gates.
-
-## Operating rules
+## Operating Rules
 
 - Keep the workflow modular.
 - Prefer separate files for separate stages.
 - Save progress as Markdown.
-- When a user confirms a product/architecture decision during idea development, patch the working idea note immediately so the decision is not lost.
-- Only add generic, shareable examples or reusable patterns to this skill. Do not include private user-specific product plans in skill references.
-- If the user says "stop" or "that's enough," stop questioning and draft immediately.
+- Patch the working idea note when the user confirms product, architecture, or UI decisions.
+- Keep reusable skill content public-safe; do not embed private product plans or credentials.
+- If the user says stop, that's enough, enough for now, done, draft it, or write it up, stop questioning and draft immediately.
 - If the user wants a lighter experience, use Lite mode.
-- If the user wants the whole process, use Full mode and continue through the later stages.
+- If a stage is skipped, continue with the previous workflow and record assumptions.
 
-## Reference files
+## Relationship to Focused Skills
 
-- `references/interview-question-bank.md` — reusable question bank for Lite and Full mode interviews.
+- Use `idea-to-design-doc` when the user only wants the design stage.
+- Use `idea-to-ui-design-brief` when the user wants UI direction, generated UI concepts, screen-by-screen mockup notes, or post-build UI redesign.
+- Use `idea-to-implementation-doc` when the user only wants implementation planning.
+- Use `idea-superpowers-suite` when the user wants the full system.
+
+## Relationship to Superpowers
+
+The idea workflow is the front-end product/spec pipeline. Superpowers is the execution discipline pipeline.
+
+Expected handoff:
+1. `idea-superpowers-suite` captures the idea and asks clarifying questions.
+2. `idea-to-design-doc` produces the design/spec document.
+3. `idea-to-ui-design-brief` optionally produces UI direction and image-generation concept prompts.
+4. `idea-to-implementation-doc` produces the build-ready Markdown handoff.
+5. Superpowers validates, plans, implements, tests, reviews, and verifies.
+
+The idea workflow should create high-quality input for Superpowers, not replace Superpowers execution.
+
+## Reference Files
+
+- `references/interview-question-bank.md` — reusable question bank for Lite and Full interviews.
 - `references/example-cli-tool-build-handoff.md` — generic example final handoff for a small developer CLI tool.
 - `references/example-saas-web-app-build-handoff.md` — generic example final handoff for a small SaaS/web app.
 - `references/example-automation-script-build-handoff.md` — generic example final handoff for a practical automation workflow.
@@ -306,38 +371,22 @@ This override does not allow unsafe actions or credential exposure. It only over
 - `idea-to-implementation-doc/templates/agent-build-handoff-template.md` — required structure for final agent/Superpowers build handoff documents.
 - `templates/idea-package-readme-template.md` — README/status index for Full mode idea folders.
 
-## Naming convention
+## Common Pitfalls
 
-Use the same idea slug/title across stages. Lite mode may use `ideas/my-app.md`; Full mode should use `ideas/my-app/README.md` plus numbered stage files.
+1. Making the UI stage mandatory. It is optional and Full-mode only by default.
+2. Letting generated images become the source of truth. Translate images into written UI requirements.
+3. Renumbering existing packages inconsistently. Preserve established numbering and update README maps.
+4. Overloading Lite mode. Keep Lite fast unless the user asks for UI or Full mode.
+5. Producing generic UI slop. Use product-specific screens, states, and actions.
+6. Moving into code before product and UI decisions that affect scope are clear.
 
-## Suggested response style
+## Verification Checklist
 
-Be concise, organized, and exploratory.
-
-When actively interviewing, ask one question and wait.
-When producing docs, show the output path and a short summary of what was created.
-
-## Relationship to the focused skills
-
-This umbrella skill should behave like the orchestrator of the workflow, while the focused skills remain available for narrower use cases.
-
-- Use `idea-to-design-doc` when the user only wants the design stage.
-- Use `idea-to-implementation-doc` when the user only wants the implementation stage.
-- Use `idea-superpowers-suite` when the user wants the full system.
-
-## Relationship to the Superpowers build toolset
-
-This `idea-workflow` toolset is the **front-end product/spec pipeline**. It should take a high-level idea and produce a strong design + implementation spec.
-
-The `superpowers-gpt` toolset is the **execution discipline pipeline**. After the idea workflow produces the final build-ready Markdown spec, hand that spec to Superpowers to validate, plan, split, implement, test, review, and verify.
-
-Expected handoff:
-1. `idea-superpowers-suite` captures the idea and asks clarifying questions.
-2. `idea-to-design-doc` produces the design/spec document.
-3. `idea-to-implementation-doc` produces the single build-ready Markdown file with tasks, prompt, tests, acceptance criteria, and a Superpowers-aligned handoff that asks Superpowers to inspect, plan, execute, review, and verify rather than blindly code.
-4. `superpowers-using-superpowers` routes the build request.
-5. `superpowers-writing-plans` turns the build-ready spec into exact implementation tasks with files, commands, and validation.
-6. `superpowers-executing-plans` or `superpowers-subagent-driven-development` implements the plan.
-7. `superpowers-requesting-code-review` and `superpowers-verification-before-completion` ensure the agent cannot honestly say “done” until fresh evidence proves it works.
-
-The idea workflow should not try to replace the 14-skill Superpowers execution suite. It should create the high-quality input that makes the Superpowers suite effective.
+- [ ] Mode was chosen or inferred correctly.
+- [ ] Lite mode stayed lightweight unless explicitly upgraded.
+- [ ] Full mode artifacts are separated by stage.
+- [ ] UI brief exists only when useful/requested, or UI assumptions are carried forward.
+- [ ] Optional image-generation prompts are treated as concepts, not implementation truth.
+- [ ] README artifact map matches actual filenames and numbering.
+- [ ] Final handoff includes UI direction or explicit UI assumptions.
+- [ ] Spec review honestly reports unresolved product, UI, and technical gaps.
